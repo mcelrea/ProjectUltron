@@ -6,8 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 
 /**
  * Created by Tech on 3/2/2015.
@@ -18,6 +17,7 @@ public class GameplayScreen implements Screen{
     OrthographicCamera camera;          //show a small portion of the world
     Box2DDebugRenderer debugRenderer;   //displays the bodies and fixtures
     SpriteBatch batch;                  //used to draw Textures and Sprites
+    Player player;                      //the actor that is controlled with user input
 
     @Override
     public void show() {
@@ -27,6 +27,10 @@ public class GameplayScreen implements Screen{
         camera = new OrthographicCamera();
         debugRenderer = new Box2DDebugRenderer();
         batch = new SpriteBatch();
+
+        player = new Player(world, 4, 4);
+
+        createLevel1();
     }
 
     @Override
@@ -63,6 +67,29 @@ public class GameplayScreen implements Screen{
 
     @Override
     public void dispose() {
+        batch.dispose();
+        debugRenderer.dispose();
+        world.dispose();
+    }
 
+    public void createLevel1() {
+
+        BodyDef bodyDef = new BodyDef();
+        FixtureDef fixtureDef = new FixtureDef();
+
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        ChainShape platform = new ChainShape();
+        platform.createChain(new Vector2[]{new Vector2(-12,-10),
+                                           new Vector2(12,-10)});
+        fixtureDef.shape = platform;
+        fixtureDef.restitution = .3f;
+        fixtureDef.density = 1000;
+        fixtureDef.friction = 0.3f;
+        world.createBody(bodyDef).createFixture(fixtureDef);
+        platform.dispose();
     }
 }
+
+
+
+
