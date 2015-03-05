@@ -31,8 +31,22 @@ public class Player {
         body = world.createBody(bodyDef); //put the body into the world
         body.createFixture(fixtureDef); //attach the box fixture to the body
         body.getFixtureList().first().setUserData(this); //name the box fixture as a Player (this) so we can reference it for collision detection
+        body.setFixedRotation(true);
         box.dispose(); //erase the temporary box from memory to reduce memory leaks
 
+    }
+
+    public void moveRight() {
+        body.applyForceToCenter(100000,0,true);
+    }
+
+    public void moveLeft() {
+        body.applyForceToCenter(-100000,0,true);
+    }
+
+    public void stopXMovement() {
+        body.setLinearVelocity(0,body.getLinearVelocity().y);
+        body.setAwake(true);
     }
 
 }
