@@ -21,11 +21,11 @@ public class Player {
 
         //making the player's body
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(0,0); //put the body at the origin of the world, (0,0)
+        bodyDef.position.set(0,-8.98f); //put the body at the origin of the world, (0,0)
         PolygonShape box = new PolygonShape();
         box.setAsBox(0.5f, 1); //create a player sized box
         fixtureDef.shape = box; //set the shape of the fixture to the box we created above
-        fixtureDef.friction = 0.3f; //set friction
+        fixtureDef.friction = 1f; //set friction
         fixtureDef.restitution = 0f; //set restitution, how much bounce a fixture will have
         fixtureDef.density = 670f; //670 is the average density for a human
         body = world.createBody(bodyDef); //put the body into the world
@@ -37,16 +37,22 @@ public class Player {
     }
 
     public void moveRight() {
-        body.applyForceToCenter(100000,0,true);
+        if(body.getLinearVelocity().x < 10)
+            body.applyForceToCenter(100000,0,true);
     }
 
     public void moveLeft() {
-        body.applyForceToCenter(-100000,0,true);
+        if(body.getLinearVelocity().x > -10)
+            body.applyForceToCenter(-100000,0,true);
     }
 
     public void stopXMovement() {
         body.setLinearVelocity(0,body.getLinearVelocity().y);
         body.setAwake(true);
+    }
+
+    public void jump() {
+        body.applyForceToCenter(0, 800000, true);
     }
 
 }

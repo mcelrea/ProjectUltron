@@ -22,6 +22,7 @@ public class GameplayScreen implements Screen{
     SpriteBatch batch;                  //used to draw Textures and Sprites
     Player player;                      //the actor that is controlled with user input
     BitmapFont font;
+    boolean debugOn = true;
 
     @Override
     public void show() {
@@ -47,10 +48,13 @@ public class GameplayScreen implements Screen{
         update(delta);
 
         world.step(1/60f, 8, 3);
+        camera.position.set(player.body.getPosition().x, 0, 0);
         camera.update();
 
         batch.begin();
-        debug(); //draw the debug text onto the screen
+        if(debugOn) {
+            debug(); //draw the debug text onto the screen
+        }
         batch.end();
 
         debugRenderer.render(world, camera.combined);
@@ -68,10 +72,12 @@ public class GameplayScreen implements Screen{
         if(Gdx.input.isKeyPressed(Input.Keys.A)) {
             player.moveLeft();
         }
-        //if(!Gdx.input.isKeyPressed(Input.Keys.D) &&
-        //        !Gdx.input.isKeyPressed(Input.Keys.A)) {
-        //    player.stopXMovement();
-        //}
+
+        //jump
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            player.jump();
+        }
+
     }
 
     public void debug() {
@@ -79,6 +85,9 @@ public class GameplayScreen implements Screen{
         //display player position
         font.draw(batch, "x = " + player.body.getPosition().x, 10, 570);
         font.draw(batch, "y = " + player.body.getPosition().y, 10, 550);
+        font.draw(batch, "x-vel = " + player.body.getLinearVelocity().x, 10, 530);
+        font.draw(batch, "y-vel = " + player.body.getLinearVelocity().y, 10, 500);
+
     }
 
     @Override
@@ -121,7 +130,7 @@ public class GameplayScreen implements Screen{
         fixtureDef.shape = platform;
         fixtureDef.restitution = 0f;
         fixtureDef.density = 1000;
-        fixtureDef.friction = 0.3f;
+        fixtureDef.friction = 7f;
         world.createBody(bodyDef).createFixture(fixtureDef);
         platform.dispose();
     }
