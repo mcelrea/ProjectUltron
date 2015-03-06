@@ -78,6 +78,10 @@ public class GameplayScreen implements Screen{
             player.jump();
         }
 
+        //shoot
+        if(Gdx.input.isKeyJustPressed(Input.Keys.J)) {
+            player.shootBullet(world);
+        }
     }
 
     public void debug() {
@@ -127,6 +131,28 @@ public class GameplayScreen implements Screen{
         ChainShape platform = new ChainShape();
         platform.createChain(new Vector2[]{new Vector2(-12,-10),
                                            new Vector2(12,-10)});
+        fixtureDef.shape = platform;
+        fixtureDef.restitution = 0f;
+        fixtureDef.density = 1000;
+        fixtureDef.friction = 7f;
+        world.createBody(bodyDef).createFixture(fixtureDef);
+        platform.dispose();
+
+        //platform 2
+        platform = new ChainShape();
+        platform.createChain(new Vector2[]{new Vector2(11,-6),
+                                           new Vector2(30,-6)});
+        fixtureDef.shape = platform;
+        fixtureDef.restitution = 0f;
+        fixtureDef.density = 1000;
+        fixtureDef.friction = 7f;
+        world.createBody(bodyDef).createFixture(fixtureDef);
+        platform.dispose();
+
+        //platform 3
+        platform = new ChainShape();
+        platform.createChain(new Vector2[]{new Vector2(30,-8),
+                                           new Vector2(60,-8)});
         fixtureDef.shape = platform;
         fixtureDef.restitution = 0f;
         fixtureDef.density = 1000;

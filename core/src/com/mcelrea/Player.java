@@ -10,6 +10,8 @@ public class Player {
     Body body;
     float speed;
     float jumpForce;
+    static final int LEFT = 1, RIGHT = 2;
+    int dir = RIGHT;
 
     //constructor
     public Player(World world, float speed, float jumpForce) {
@@ -39,11 +41,13 @@ public class Player {
     public void moveRight() {
         if(body.getLinearVelocity().x < 10)
             body.applyForceToCenter(100000,0,true);
+        dir = RIGHT;
     }
 
     public void moveLeft() {
         if(body.getLinearVelocity().x > -10)
             body.applyForceToCenter(-100000,0,true);
+        dir = LEFT;
     }
 
     public void stopXMovement() {
@@ -55,4 +59,18 @@ public class Player {
         body.applyForceToCenter(0, 800000, true);
     }
 
+    public void shootBullet(World world) {
+        if(dir == RIGHT) {
+            new PlayerBullet(world, 0.2f,
+                             body.getPosition().x,
+                             body.getPosition().y,
+                             10,0);
+        }
+        else { //he must be facing left
+            new PlayerBullet(world, 0.2f,
+                             body.getPosition().x,
+                             body.getPosition().y,
+                             -10,0);
+        }
+    }
 }
