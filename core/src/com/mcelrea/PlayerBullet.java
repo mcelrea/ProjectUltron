@@ -12,5 +12,6 @@ public class PlayerBullet extends Bullet {
                         float xvel, float yvel) {
         super(world, size, x, y, xvel, yvel);
         super.body.getFixtureList().first().setUserData(this);
+        GameplayScreen.playerBullets.add(this);
     }
 }

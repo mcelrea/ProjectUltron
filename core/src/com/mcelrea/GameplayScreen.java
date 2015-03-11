@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
+import java.util.ArrayList;
+
 /**
  * Created by Tech on 3/2/2015.
  */
@@ -23,9 +25,12 @@ public class GameplayScreen implements Screen{
     Player player;                      //the actor that is controlled with user input
     BitmapFont font;
     boolean debugOn = true;
+    public static ArrayList<Bullet> playerBullets;
 
     @Override
     public void show() {
+        playerBullets = new ArrayList<Bullet>();
+
         //create the world with Earth gravity
         world = new World(new Vector2(0, -9.81f), true);
         world.setContactFilter(new MyContactFilter());
@@ -92,7 +97,7 @@ public class GameplayScreen implements Screen{
         font.draw(batch, "y = " + player.body.getPosition().y, 10, 550);
         font.draw(batch, "x-vel = " + player.body.getLinearVelocity().x, 10, 530);
         font.draw(batch, "y-vel = " + player.body.getLinearVelocity().y, 10, 500);
-
+        font.draw(batch, "# of bullets = " + playerBullets.size(), 10, 470);
     }
 
     @Override
@@ -136,7 +141,7 @@ public class GameplayScreen implements Screen{
         fixtureDef.restitution = 0f;
         fixtureDef.density = 1000;
         fixtureDef.friction = 7f;
-        world.createBody(bodyDef).createFixture(fixtureDef);
+        world.createBody(bodyDef).createFixture(fixtureDef).setUserData("wall");
         platform.dispose();
 
         //platform 2
@@ -147,7 +152,7 @@ public class GameplayScreen implements Screen{
         fixtureDef.restitution = 0f;
         fixtureDef.density = 1000;
         fixtureDef.friction = 7f;
-        world.createBody(bodyDef).createFixture(fixtureDef);
+        world.createBody(bodyDef).createFixture(fixtureDef).setUserData("wall");
         platform.dispose();
 
         //platform 3
@@ -158,7 +163,7 @@ public class GameplayScreen implements Screen{
         fixtureDef.restitution = 0f;
         fixtureDef.density = 1000;
         fixtureDef.friction = 7f;
-        world.createBody(bodyDef).createFixture(fixtureDef);
+        world.createBody(bodyDef).createFixture(fixtureDef).setUserData("wall");
         platform.dispose();
     }
 }

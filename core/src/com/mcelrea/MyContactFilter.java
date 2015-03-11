@@ -12,6 +12,9 @@ public class MyContactFilter implements ContactFilter{
     @Override
     public boolean shouldCollide(Fixture fixtureA, Fixture fixtureB) {
 
+        /*
+         * Player and PlayerBullet Collision
+         */
         if(fixtureA.getUserData() instanceof Player &&
                 fixtureB.getUserData() instanceof PlayerBullet) {
             return false;//ignore this collision
@@ -21,6 +24,27 @@ public class MyContactFilter implements ContactFilter{
             return false;//ignore this collision
         }
 
+        /*
+         * Bullet and Bullet Collision
+         */
+        if(fixtureA.getUserData() instanceof Bullet &&
+                fixtureB.getUserData() instanceof Bullet) {
+            return false;//ignore collision
+        }
+
+        /*
+         * Bullet and Wall Collision
+         */
+        if(fixtureA.getUserData() instanceof Bullet &&
+                fixtureB.getUserData().equals("wall")) {
+            ((Bullet)(fixtureA.getUserData())).alive = false;
+        }
+        else if(fixtureA.getUserData().equals("wall") &&
+                fixtureB.getUserData() instanceof Bullet) {
+            ((Bullet)(fixtureB.getUserData())).alive = false;
+        }
+
+        //must be the last line
         return true;
     }
 }
