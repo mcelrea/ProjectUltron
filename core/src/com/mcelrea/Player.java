@@ -12,6 +12,7 @@ public class Player {
     float jumpForce;
     static final int LEFT = 1, RIGHT = 2;
     int dir = RIGHT;
+    float shootSpeed = 20;
 
     //constructor
     public Player(World world, float speed, float jumpForce) {
@@ -64,13 +65,13 @@ public class Player {
             new PlayerBullet(world, 0.2f,
                              body.getPosition().x,
                              body.getPosition().y,
-                             10,0);
+                             shootSpeed,0);
         }
         else { //he must be facing left
             new PlayerBullet(world, 0.2f,
                              body.getPosition().x,
                              body.getPosition().y,
-                             -10,0);
+                             -shootSpeed,0);
         }
     }
 }

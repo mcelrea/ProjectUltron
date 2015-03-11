@@ -28,6 +28,7 @@ public class GameplayScreen implements Screen{
     public void show() {
         //create the world with Earth gravity
         world = new World(new Vector2(0, -9.81f), true);
+        world.setContactFilter(new MyContactFilter());
 
         camera = new OrthographicCamera();
         debugRenderer = new Box2DDebugRenderer();
@@ -74,12 +75,12 @@ public class GameplayScreen implements Screen{
         }
 
         //jump
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.W)) {
             player.jump();
         }
 
         //shoot
-        if(Gdx.input.isKeyJustPressed(Input.Keys.J)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
             player.shootBullet(world);
         }
     }
@@ -128,9 +129,9 @@ public class GameplayScreen implements Screen{
         FixtureDef fixtureDef = new FixtureDef();
 
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        ChainShape platform = new ChainShape();
-        platform.createChain(new Vector2[]{new Vector2(-12,-10),
-                                           new Vector2(12,-10)});
+        bodyDef.position.set(-12,-10);
+        PolygonShape platform = new PolygonShape();
+        platform.setAsBox(24,2);
         fixtureDef.shape = platform;
         fixtureDef.restitution = 0f;
         fixtureDef.density = 1000;
@@ -139,9 +140,9 @@ public class GameplayScreen implements Screen{
         platform.dispose();
 
         //platform 2
-        platform = new ChainShape();
-        platform.createChain(new Vector2[]{new Vector2(11,-6),
-                                           new Vector2(30,-6)});
+        bodyDef.position.set(27,-6);
+        platform = new PolygonShape();
+        platform.setAsBox(12,2);
         fixtureDef.shape = platform;
         fixtureDef.restitution = 0f;
         fixtureDef.density = 1000;
@@ -150,9 +151,9 @@ public class GameplayScreen implements Screen{
         platform.dispose();
 
         //platform 3
-        platform = new ChainShape();
-        platform.createChain(new Vector2[]{new Vector2(30,-8),
-                                           new Vector2(60,-8)});
+        bodyDef.position.set(45,-8);
+        platform = new PolygonShape();
+        platform.setAsBox(6,2);
         fixtureDef.shape = platform;
         fixtureDef.restitution = 0f;
         fixtureDef.density = 1000;
