@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 
 import java.util.ArrayList;
@@ -64,6 +65,41 @@ public class GameplayScreen implements Screen{
         batch.end();
 
         debugRenderer.render(world, camera.combined);
+
+        removeDeadBullets();
+    }
+
+    private void removeDeadBullets() {
+
+        //go through all the bullets
+        for(int i=0; i < playerBullets.size(); i++) {
+            //grab the next bullet to inspect
+            Bullet b = playerBullets.get(i);
+
+            //if the bullet is dead
+            if(b.alive == false) {
+                world.destroyBody(b.body);//remove bullet from the world
+                playerBullets.remove(b);//remove bullet from the list
+                i--;//decrement i because I removed a bullet from list
+            }
+            else { //else check if its off the screen
+
+                //grab the bullets position in the world in meters
+                float x = b.body.getPosition().x;
+                float y = b.body.getPosition().y;
+                Vector3 worldPos = new Vector3(x, y, 0);
+
+                //convert meters to screen pixels
+                Vector3 screenPos = camera.project(worldPos);
+
+                //if its off the screen
+                if (screenPos.x < 0 || screenPos.x > 800) {
+                    world.destroyBody(b.body);//remove bullet from the world
+                    playerBullets.remove(b);//remove bullet from the list
+                    i--;//decrement i because I removed a bullet from list
+                }
+            }
+        }
     }
 
     public void update(float delta) {
