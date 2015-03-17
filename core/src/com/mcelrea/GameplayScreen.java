@@ -27,10 +27,12 @@ public class GameplayScreen implements Screen{
     BitmapFont font;
     boolean debugOn = true;
     public static ArrayList<Bullet> playerBullets;
+    public static ArrayList<Enemy> enemies;
 
     @Override
     public void show() {
         playerBullets = new ArrayList<Bullet>();
+        enemies = new ArrayList<Enemy>();
 
         //create the world with Earth gravity
         world = new World(new Vector2(0, -9.81f), true);
@@ -104,6 +106,16 @@ public class GameplayScreen implements Screen{
 
     public void update(float delta) {
         updatePlayer(delta);
+        updateEnemies(delta);
+    }
+
+    private void updateEnemies(float delta) {
+
+        //go through the enemy list and
+        //tell every enemy to act
+        for(int i=0; i < enemies.size(); i++) {
+            enemies.get(i).act(world, delta);
+        }
     }
 
     public void updatePlayer(float delta) {
@@ -169,6 +181,7 @@ public class GameplayScreen implements Screen{
         BodyDef bodyDef = new BodyDef();
         FixtureDef fixtureDef = new FixtureDef();
 
+        //platform 1
         bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(-12,-10);
         PolygonShape platform = new PolygonShape();
@@ -201,6 +214,9 @@ public class GameplayScreen implements Screen{
         fixtureDef.friction = 7f;
         world.createBody(bodyDef).createFixture(fixtureDef).setUserData("wall");
         platform.dispose();
+
+        //create the enemies
+        enemies.add(new PatrolEnemy(world, 36, -5, 15, 35, 0, 0));
     }
 }
 
