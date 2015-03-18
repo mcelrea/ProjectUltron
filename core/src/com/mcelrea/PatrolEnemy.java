@@ -1,11 +1,12 @@
 package com.mcelrea;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.physics.box2d.*;
 
 /**
  * Created by Tech on 3/17/2015.
  */
-public class PatrolEnemy implements Enemy{
+public class PatrolEnemy extends Enemy{
 
     Body body;
     float patrolx1;
@@ -61,6 +62,36 @@ public class PatrolEnemy implements Enemy{
             xswitch = !xswitch;
         }
     }
+
+    @Override
+    public void die(World world) {
+
+
+        GameplayScreen.playerBullets.add(new EnemyBullet(world,
+                .2f, body.getPosition().x, body.getPosition().y+1,
+                0, 15));
+        GameplayScreen.playerBullets.add(new EnemyBullet(world,
+                .2f, body.getPosition().x, body.getPosition().y+1,
+                15, 0));
+        GameplayScreen.playerBullets.add(new EnemyBullet(world,
+                .2f, body.getPosition().x, body.getPosition().y+1,
+                -15, 0));
+        GameplayScreen.playerBullets.add(new EnemyBullet(world,
+                .2f, body.getPosition().x, body.getPosition().y+1,
+                15, 15));
+        GameplayScreen.playerBullets.add(new EnemyBullet(world,
+                .2f, body.getPosition().x, body.getPosition().y+1,
+                -15, -15));
+        GameplayScreen.playerBullets.add(new EnemyBullet(world,
+                .2f, body.getPosition().x, body.getPosition().y+1,
+                15, -15));
+        GameplayScreen.playerBullets.add(new EnemyBullet(world,
+                .2f, body.getPosition().x, body.getPosition().y+1,
+                -15, 15));
+
+        world.destroyBody(body);
+    }
+
 }
 
 

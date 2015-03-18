@@ -44,6 +44,20 @@ public class MyContactFilter implements ContactFilter{
             ((Bullet)(fixtureB.getUserData())).alive = false;
         }
 
+        /*
+         * Player bullets and Enemy collision
+         */
+        if(fixtureA.getUserData() instanceof PlayerBullet &&
+                fixtureB.getUserData() instanceof Enemy) {
+            ((PlayerBullet)(fixtureA.getUserData())).alive = false;
+            ((Enemy)(fixtureB.getUserData())).alive = false;
+        }
+        else if(fixtureB.getUserData() instanceof PlayerBullet &&
+                fixtureA.getUserData() instanceof Enemy) {
+            ((PlayerBullet)(fixtureB.getUserData())).alive = false;
+            ((Enemy)(fixtureA.getUserData())).alive = false;
+        }
+
         //must be the last line
         return true;
     }

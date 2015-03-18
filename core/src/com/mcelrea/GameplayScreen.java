@@ -69,6 +69,20 @@ public class GameplayScreen implements Screen{
         debugRenderer.render(world, camera.combined);
 
         removeDeadBullets();
+        removeDeadEnemies();
+    }
+
+    private void removeDeadEnemies() {
+
+        //go through all the enemies
+        for(int i=0; i < enemies.size(); i++) {
+            //if the enemy is marked for removal
+            if(enemies.get(i).alive == false) {
+                enemies.get(i).die(world);//remove the enemy from the world
+                enemies.remove(i);//remove the enemy from the list
+                i--;//decrement i because we just removed an enemy from the list
+            }
+        }
     }
 
     private void removeDeadBullets() {
