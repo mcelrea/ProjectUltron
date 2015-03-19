@@ -68,8 +68,9 @@ public class GameplayScreen implements Screen{
 
         debugRenderer.render(world, camera.combined);
 
-        removeDeadBullets();
+
         removeDeadEnemies();
+        removeDeadBullets();
     }
 
     private void removeDeadEnemies() {
@@ -109,7 +110,7 @@ public class GameplayScreen implements Screen{
                 Vector3 screenPos = camera.project(worldPos);
 
                 //if its off the screen
-                if (screenPos.x < 0 || screenPos.x > 800) {
+                if ((screenPos.x < 0 || screenPos.x > 800)) {
                     world.destroyBody(b.body);//remove bullet from the world
                     playerBullets.remove(b);//remove bullet from the list
                     i--;//decrement i because I removed a bullet from list

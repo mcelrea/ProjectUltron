@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.*;
  */
 public class PatrolEnemy extends Enemy{
 
-    Body body;
     float patrolx1;
     float patrolx2;
     float patroly1;
@@ -66,27 +65,24 @@ public class PatrolEnemy extends Enemy{
     @Override
     public void die(World world) {
 
+        float x, y;
+        x = body.getPosition().x;
+        y = body.getPosition().y;
 
         GameplayScreen.playerBullets.add(new EnemyBullet(world,
-                .2f, body.getPosition().x, body.getPosition().y+1,
+                .2f, x, y+1,
                 0, 15));
         GameplayScreen.playerBullets.add(new EnemyBullet(world,
-                .2f, body.getPosition().x, body.getPosition().y+1,
+                .2f, x,y+1,
                 15, 0));
         GameplayScreen.playerBullets.add(new EnemyBullet(world,
-                .2f, body.getPosition().x, body.getPosition().y+1,
+                .2f, x, y+1,
                 -15, 0));
         GameplayScreen.playerBullets.add(new EnemyBullet(world,
-                .2f, body.getPosition().x, body.getPosition().y+1,
+                .2f, x, y+1,
                 15, 15));
         GameplayScreen.playerBullets.add(new EnemyBullet(world,
-                .2f, body.getPosition().x, body.getPosition().y+1,
-                -15, -15));
-        GameplayScreen.playerBullets.add(new EnemyBullet(world,
-                .2f, body.getPosition().x, body.getPosition().y+1,
-                15, -15));
-        GameplayScreen.playerBullets.add(new EnemyBullet(world,
-                .2f, body.getPosition().x, body.getPosition().y+1,
+                .2f, x, y+1,
                 -15, 15));
 
         world.destroyBody(body);

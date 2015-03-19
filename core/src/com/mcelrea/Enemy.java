@@ -1,5 +1,6 @@
 package com.mcelrea;
 
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
@@ -8,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public abstract class Enemy {
 
     boolean alive;
+    Body body;
 
     public Enemy() {
         alive = true;
