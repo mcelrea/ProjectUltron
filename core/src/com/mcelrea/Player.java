@@ -1,5 +1,11 @@
 package com.mcelrea;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 
 /**
@@ -13,6 +19,8 @@ public class Player {
     static final int LEFT = 1, RIGHT = 2;
     int dir = RIGHT;
     float shootSpeed = 20;
+    Sprite rightSprite;
+    Sprite leftSprite;
 
     //constructor
     public Player(World world, float speed, float jumpForce) {
@@ -26,7 +34,7 @@ public class Player {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(0,-8.98f); //put the body at the origin of the world, (0,0)
         PolygonShape box = new PolygonShape();
-        box.setAsBox(0.5f, 1); //create a player sized box
+        box.setAsBox(0.5f, 0.7f); //create a player sized box
         fixtureDef.shape = box; //set the shape of the fixture to the box we created above
         fixtureDef.friction = 1f; //set friction
         fixtureDef.restitution = 0f; //set restitution, how much bounce a fixture will have
@@ -37,6 +45,10 @@ public class Player {
         body.setFixedRotation(true);
         box.dispose(); //erase the temporary box from memory to reduce memory leaks
 
+        Texture t = new Texture(Gdx.files.internal("playerRight.png"));
+        rightSprite = new Sprite(t);
+        leftSprite = new Sprite(t);
+        leftSprite.flip(true, false);
     }
 
     public void moveRight() {
@@ -72,6 +84,26 @@ public class Player {
                              body.getPosition().x,
                              body.getPosition().y,
                              -shootSpeed,0);
+        }
+    }
+
+    public void paint(SpriteBatch batch, OrthographicCamera camera) {
+        //get the world coordinated (meters) of the player
+        Vector3 worldCoords = new Vector3(body.getPosition().x,
+                                          body.getPosition().y,
+                                          0);
+
+        //convert from meters in the world, to pixels on the screen
+        Vector3 screenCoords = camera.project(worldCoords);
+
+        rightSprite.setPosition(screenCoords.x- rightSprite.getWidth()/2,
+                           screenCoords.y- rightSprite.getHeight()/2);
+
+        if(dir == RIGHT) {
+            batch.draw(rightSprite, rightSprite.getX(), rightSprite.getY());
+        }
+        else if (dir == LEFT) {
+            batch.draw(leftSprite, rightSprite.getX(), rightSprite.getY());
         }
     }
 }

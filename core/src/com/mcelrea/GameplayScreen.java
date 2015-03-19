@@ -64,6 +64,7 @@ public class GameplayScreen implements Screen{
         if(debugOn) {
             debug(); //draw the debug text onto the screen
         }
+        player.paint(batch, camera);
         batch.end();
 
         debugRenderer.render(world, camera.combined);
