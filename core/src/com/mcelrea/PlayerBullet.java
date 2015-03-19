@@ -1,5 +1,8 @@
 package com.mcelrea;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.World;
 
 /**
@@ -12,6 +15,8 @@ public class PlayerBullet extends Bullet {
                         float xvel, float yvel) {
         super(world, size, x, y, xvel, yvel);
         super.body.getFixtureList().first().setUserData(this);
+        Texture t = new Texture(Gdx.files.internal("player bullet.png"));
+        sprite = new Sprite(t);
         GameplayScreen.playerBullets.add(this);
     }
 }

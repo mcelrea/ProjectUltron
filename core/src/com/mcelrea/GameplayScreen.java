@@ -65,6 +65,7 @@ public class GameplayScreen implements Screen{
             debug(); //draw the debug text onto the screen
         }
         player.paint(batch, camera);
+        drawBullets();
         batch.end();
 
         debugRenderer.render(world, camera.combined);
@@ -72,6 +73,12 @@ public class GameplayScreen implements Screen{
 
         removeDeadEnemies();
         removeDeadBullets();
+    }
+
+    private void drawBullets() {
+        for(int i=0; i < playerBullets.size(); i++) {
+            playerBullets.get(i).paint(batch, camera);
+        }
     }
 
     private void removeDeadEnemies() {
