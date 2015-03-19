@@ -232,6 +232,7 @@ public class GameplayScreen implements Screen{
 
         //create the enemies
         enemies.add(new PatrolEnemy(world, 36, -5, 15, 35, 0, 0));
+        enemies.add(new PatrolEnemy(world, 45, 10, 0, 0, -3, 10));
     }
 }
 

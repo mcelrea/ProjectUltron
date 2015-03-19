@@ -40,7 +40,15 @@ public class PatrolEnemy extends Enemy{
         body.createFixture(fixtureDef); //attach the box fixture to the body
         body.getFixtureList().first().setUserData(this); //name the box fixture as a Player (this) so we can reference it for collision detection
         body.setFixedRotation(true);
-        body.setLinearVelocity(-5,0);
+        if(px1 != 0) {
+            body.setLinearVelocity(-5, 0);
+            System.out.println("x patrol detected");
+        }
+        if(py1 != 0) {
+            body.setLinearVelocity(0, 5);
+            body.setGravityScale(0);
+            System.out.println("y patrol detected");
+        }
         box.dispose(); //erase the temporary box from memory to reduce memory leaks
     }
 
@@ -48,17 +56,35 @@ public class PatrolEnemy extends Enemy{
     @Override
     public void act(World world, float delta) {
 
-        //if he's moving to the left
-        //and he's past the patrol point
-        if(xswitch == false && body.getPosition().x < patrolx1) {
-            body.setLinearVelocity(5,0);//move him to the right now
-            xswitch = !xswitch;
+        //if enemey should patrol in the x-direction
+        if(patrolx1 != 0 && patrolx2 != 0) {
+            //if he's moving to the left
+            //and he's past the patrol point
+            if (xswitch == false && body.getPosition().x < patrolx1) {
+                body.setLinearVelocity(5, 0);//move him to the right now
+                xswitch = !xswitch;
+            }
+            //if he's moving to the right
+            //and he's past the patrol point
+            if (xswitch == true && body.getPosition().x > patrolx2) {
+                body.setLinearVelocity(-5, 0);//move him to the left now
+                xswitch = !xswitch;
+            }
         }
-        //if he's moving to the right
-        //and he's past the patrol point
-        if(xswitch == true && body.getPosition().x > patrolx2) {
-            body.setLinearVelocity(-5,0);//move him to the left now
-            xswitch = !xswitch;
+        if (patroly1 != 0 && patroly2 != 0) {
+            //if he's moving up
+            //and he's past the patrol point
+            //System.out.println("move in the y direction");
+            if(yswitch == false && body.getPosition().y > patroly2) {
+                body.setLinearVelocity(0,-5);
+                yswitch = !yswitch;
+                System.out.println("switch down");
+            }
+            if(yswitch == true && body.getPosition().y < patroly1) {
+                body.setLinearVelocity(0, 5);
+                yswitch = !yswitch;
+                System.out.println("switch up");
+            }
         }
     }
 
