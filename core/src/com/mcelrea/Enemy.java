@@ -1,5 +1,8 @@
 package com.mcelrea;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -17,4 +20,5 @@ public abstract class Enemy {
 
     public abstract void act(World world, float delta);
     public abstract void die(World world);
+    public abstract void paint(SpriteBatch batch, OrthographicCamera camera);
 }

@@ -66,6 +66,7 @@ public class GameplayScreen implements Screen{
         }
         player.paint(batch, camera);
         drawBullets();
+        drawEnemies();
         batch.end();
 
         debugRenderer.render(world, camera.combined);
@@ -73,6 +74,12 @@ public class GameplayScreen implements Screen{
 
         removeDeadEnemies();
         removeDeadBullets();
+    }
+
+    private void drawEnemies() {
+        for(int i=0; i < enemies.size(); i++) {
+            enemies.get(i).paint(batch, camera);
+        }
     }
 
     private void drawBullets() {
@@ -205,20 +212,12 @@ public class GameplayScreen implements Screen{
         FixtureDef fixtureDef = new FixtureDef();
 
         //platform 1
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(-12,-10);
-        PolygonShape platform = new PolygonShape();
-        platform.setAsBox(24,2);
-        fixtureDef.shape = platform;
-        fixtureDef.restitution = 0f;
-        fixtureDef.density = 1000;
-        fixtureDef.friction = 7f;
-        world.createBody(bodyDef).createFixture(fixtureDef).setUserData("wall");
-        platform.dispose();
+        new LongPlatform(world, -12, -10);
+        new LongPlatform(world, -12, 5);
 
         //platform 2
         bodyDef.position.set(27,-6);
-        platform = new PolygonShape();
+        PolygonShape platform = new PolygonShape();
         platform.setAsBox(12,2);
         fixtureDef.shape = platform;
         fixtureDef.restitution = 0f;
@@ -239,8 +238,8 @@ public class GameplayScreen implements Screen{
         platform.dispose();
 
         //create the enemies
-        enemies.add(new PatrolEnemy(world, 36, -5, 15, 35, 0, 0));
-        enemies.add(new PatrolEnemy(world, 45, 10, 0, 0, -3, 10));
+        enemies.add(new PatrolEnemy(world, 36, -5, 15, 35, 0, 0, "mummy.png"));
+        enemies.add(new PatrolEnemy(world, 45, 10, 0, 0, -3, 10, "mummy.png"));
     }
 }
 

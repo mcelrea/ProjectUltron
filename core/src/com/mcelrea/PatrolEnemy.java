@@ -1,6 +1,12 @@
 package com.mcelrea;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 
 /**
@@ -14,10 +20,14 @@ public class PatrolEnemy extends Enemy{
     float patroly2;
     boolean xswitch;
     boolean yswitch;
+    Sprite leftSprite;
+    Sprite rightSprite;
+    boolean facingLeft = true;
 
     public PatrolEnemy(World world, float x, float y,
                        float px1, float px2,
-                       float py1, float py2) {
+                       float py1, float py2,
+                       String imagePath) {
 
         patrolx1 = px1;
         patrolx2 = px2;
@@ -50,24 +60,31 @@ public class PatrolEnemy extends Enemy{
             System.out.println("y patrol detected");
         }
         box.dispose(); //erase the temporary box from memory to reduce memory leaks
+
+        Texture t = new Texture(Gdx.files.internal(imagePath));
+        leftSprite = new Sprite(t);
+        rightSprite = new Sprite(t);
+        rightSprite.flip(true, false);
     }
 
 
     @Override
     public void act(World world, float delta) {
 
-        //if enemey should patrol in the x-direction
+        //if enemy should patrol in the x-direction
         if(patrolx1 != 0 && patrolx2 != 0) {
             //if he's moving to the left
             //and he's past the patrol point
             if (xswitch == false && body.getPosition().x < patrolx1) {
                 body.setLinearVelocity(5, 0);//move him to the right now
+                facingLeft = false;
                 xswitch = !xswitch;
             }
             //if he's moving to the right
             //and he's past the patrol point
             if (xswitch == true && body.getPosition().x > patrolx2) {
                 body.setLinearVelocity(-5, 0);//move him to the left now
+                facingLeft = true;
                 xswitch = !xswitch;
             }
         }
@@ -112,6 +129,26 @@ public class PatrolEnemy extends Enemy{
                 -15, 15));
 
         world.destroyBody(body);
+    }
+
+    public void paint(SpriteBatch batch, OrthographicCamera camera) {
+        //get the world coordinated (meters) of the player
+        Vector3 worldCoords = new Vector3(body.getPosition().x,
+                body.getPosition().y,
+                0);
+
+        //convert from meters in the world, to pixels on the screen
+        Vector3 screenCoords = camera.project(worldCoords);
+
+        leftSprite.setPosition(screenCoords.x- leftSprite.getWidth()/2,
+                screenCoords.y- leftSprite.getHeight()/2);
+
+        if(facingLeft == true) {
+            batch.draw(leftSprite, leftSprite.getX(), leftSprite.getY());
+        }
+        else { //the enemy must be facing right
+            batch.draw(rightSprite, leftSprite.getX(), leftSprite.getY());
+        }
     }
 
 }
