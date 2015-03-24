@@ -211,31 +211,11 @@ public class GameplayScreen implements Screen{
         BodyDef bodyDef = new BodyDef();
         FixtureDef fixtureDef = new FixtureDef();
 
-        //platform 1
         new LongPlatform(world, -12, -10);
         new LongPlatform(world, -12, 5);
-
-        //platform 2
-        bodyDef.position.set(27,-6);
-        PolygonShape platform = new PolygonShape();
-        platform.setAsBox(12,2);
-        fixtureDef.shape = platform;
-        fixtureDef.restitution = 0f;
-        fixtureDef.density = 1000;
-        fixtureDef.friction = 7f;
-        world.createBody(bodyDef).createFixture(fixtureDef).setUserData("wall");
-        platform.dispose();
-
-        //platform 3
-        bodyDef.position.set(45,-8);
-        platform = new PolygonShape();
-        platform.setAsBox(6,2);
-        fixtureDef.shape = platform;
-        fixtureDef.restitution = 0f;
-        fixtureDef.density = 1000;
-        fixtureDef.friction = 7f;
-        world.createBody(bodyDef).createFixture(fixtureDef).setUserData("wall");
-        platform.dispose();
+        new StandardPlatform(world, 27, -6);
+        new SmallPlatform(world, 45, -8);
+        new BoxPlatform(world, 60, 5);
 
         //create the enemies
         enemies.add(new PatrolEnemy(world, 36, -5, 15, 35, 0, 0, "mummy.png"));
