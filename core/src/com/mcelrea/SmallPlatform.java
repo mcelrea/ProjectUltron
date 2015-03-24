@@ -1,19 +1,22 @@
 package com.mcelrea;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.*;
 
 /**
  * Created by Tech on 3/24/2015.
  */
-public class SmallPlatform {
+public class SmallPlatform extends Platform{
 
-    Sprite sprite;
+    public SmallPlatform(World world, OrthographicCamera camera, float x, float y) {
 
-    public SmallPlatform(World world, float x, float y) {
+        super("smallPlatform.png");
+
         BodyDef bodyDef = new BodyDef();
         FixtureDef fixtureDef = new FixtureDef();
 
@@ -26,7 +29,20 @@ public class SmallPlatform {
         fixtureDef.restitution = 0f;
         fixtureDef.density = 1000;
         fixtureDef.friction = 7f;
-        world.createBody(bodyDef).createFixture(fixtureDef).setUserData("wall");
+        body = world.createBody(bodyDef);
+        body.createFixture(fixtureDef).setUserData("wall");
         platform.dispose();
+
+        //get the world coordinated (meters) of the player
+        Vector3 worldCoords = new Vector3(body.getPosition().x,
+                body.getPosition().y,
+                0);
+
+        //convert from meters in the world, to pixels on the screen
+        Vector3 screenCoords = camera.project(worldCoords);
+
+        sprite.setPosition(screenCoords.x- sprite.getWidth()/2,
+                screenCoords.y- sprite.getHeight()/2);
     }
+
 }

@@ -28,11 +28,13 @@ public class GameplayScreen implements Screen{
     boolean debugOn = true;
     public static ArrayList<Bullet> playerBullets;
     public static ArrayList<Enemy> enemies;
+    public static ArrayList<Platform> platforms;
 
     @Override
     public void show() {
         playerBullets = new ArrayList<Bullet>();
         enemies = new ArrayList<Enemy>();
+        platforms = new ArrayList<Platform>();
 
         //create the world with Earth gravity
         world = new World(new Vector2(0, -9.81f), true);
@@ -67,13 +69,20 @@ public class GameplayScreen implements Screen{
         player.paint(batch, camera);
         drawBullets();
         drawEnemies();
+        drawPlatforms();
         batch.end();
 
-        debugRenderer.render(world, camera.combined);
+        //debugRenderer.render(world, camera.combined);
 
 
         removeDeadEnemies();
         removeDeadBullets();
+    }
+
+    private void drawPlatforms() {
+        for(int i=0; i < platforms.size(); i++) {
+            platforms.get(i).paint(batch, camera);
+        }
     }
 
     private void drawEnemies() {
@@ -211,11 +220,11 @@ public class GameplayScreen implements Screen{
         BodyDef bodyDef = new BodyDef();
         FixtureDef fixtureDef = new FixtureDef();
 
-        new LongPlatform(world, -12, -10);
-        new LongPlatform(world, -12, 5);
-        new StandardPlatform(world, 27, -6);
-        new SmallPlatform(world, 45, -8);
-        new BoxPlatform(world, 60, 5);
+        platforms.add(new LongPlatform(world, camera, -12, -10));
+        platforms.add(new LongPlatform(world, camera, -12, 5));
+        platforms.add(new StandardPlatform(world, camera, 27, -6));
+        platforms.add(new SmallPlatform(world, camera, 45, -8));
+        platforms.add(new BoxPlatform(world, camera, 60, 5));
 
         //create the enemies
         enemies.add(new PatrolEnemy(world, 36, -5, 15, 35, 0, 0, "mummy.png"));
