@@ -3,6 +3,7 @@ package com.mcelrea;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -29,6 +30,7 @@ public class GameplayScreen implements Screen{
     public static ArrayList<Bullet> playerBullets;
     public static ArrayList<Enemy> enemies;
     public static ArrayList<Platform> platforms;
+    Sound music1;
 
     @Override
     public void show() {
@@ -49,6 +51,8 @@ public class GameplayScreen implements Screen{
         player = new Player(world, 4, 4);
 
         createLevel1();
+        music1 = Gdx.audio.newSound(Gdx.files.internal("music1.mp3"));
+        music1.loop();
     }
 
     @Override

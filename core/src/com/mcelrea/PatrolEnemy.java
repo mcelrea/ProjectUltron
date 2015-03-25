@@ -2,6 +2,7 @@ package com.mcelrea;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -23,6 +24,7 @@ public class PatrolEnemy extends Enemy{
     Sprite leftSprite;
     Sprite rightSprite;
     boolean facingLeft = true;
+    Sound dieSound;
 
     public PatrolEnemy(World world, float x, float y,
                        float px1, float px2,
@@ -65,6 +67,8 @@ public class PatrolEnemy extends Enemy{
         leftSprite = new Sprite(t);
         rightSprite = new Sprite(t);
         rightSprite.flip(true, false);
+
+        dieSound = Gdx.audio.newSound(Gdx.files.internal("hurtReallyBad.wav"));
     }
 
 
@@ -108,6 +112,7 @@ public class PatrolEnemy extends Enemy{
     @Override
     public void die(World world) {
 
+        dieSound.play();
         float x, y;
         x = body.getPosition().x;
         y = body.getPosition().y;
