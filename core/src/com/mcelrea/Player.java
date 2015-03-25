@@ -23,6 +23,7 @@ public class Player {
     Sprite rightSprite;
     Sprite leftSprite;
     Sound shootSound;
+    Sound jumpSound;
 
     //constructor
     public Player(World world, float speed, float jumpForce) {
@@ -53,6 +54,7 @@ public class Player {
         leftSprite.flip(true, false);
 
         shootSound = Gdx.audio.newSound(Gdx.files.internal("Laser_Shoot11.wav"));
+        jumpSound = Gdx.audio.newSound(Gdx.files.internal("Jump2.wav"));
     }
 
     public void moveRight() {
@@ -73,6 +75,7 @@ public class Player {
     }
 
     public void jump() {
+        jumpSound.play();
         body.applyForceToCenter(0, 800000, true);
     }
 
