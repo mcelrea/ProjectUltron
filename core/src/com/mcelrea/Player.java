@@ -1,6 +1,7 @@
 package com.mcelrea;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -21,6 +22,7 @@ public class Player {
     float shootSpeed = 20;
     Sprite rightSprite;
     Sprite leftSprite;
+    Sound shootSound;
 
     //constructor
     public Player(World world, float speed, float jumpForce) {
@@ -49,6 +51,8 @@ public class Player {
         rightSprite = new Sprite(t);
         leftSprite = new Sprite(t);
         leftSprite.flip(true, false);
+
+        shootSound = Gdx.audio.newSound(Gdx.files.internal("Laser_Shoot11.wav"));
     }
 
     public void moveRight() {
@@ -73,6 +77,7 @@ public class Player {
     }
 
     public void shootBullet(World world) {
+        shootSound.play();
         if(dir == RIGHT) {
             new PlayerBullet(world, 0.2f,
                              body.getPosition().x,
