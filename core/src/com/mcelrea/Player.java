@@ -24,6 +24,7 @@ public class Player {
     Sprite leftSprite;
     Sound shootSound;
     Sound jumpSound;
+    boolean resetPosition = false;
 
     //constructor
     public Player(World world, float speed, float jumpForce) {

@@ -163,6 +163,11 @@ public class GameplayScreen implements Screen{
 
     public void updatePlayer(float delta) {
 
+        if(player.resetPosition == true) {
+            player.body.setTransform(4,4,0);
+            player.resetPosition = false;
+        }
+
         if(Gdx.input.isKeyPressed(Input.Keys.D)) {
             player.moveRight();
         }
@@ -229,10 +234,17 @@ public class GameplayScreen implements Screen{
         platforms.add(new StandardPlatform(world, camera, 27, -6));
         platforms.add(new SmallPlatform(world, camera, 45, -8));
         platforms.add(new BoxPlatform(world, camera, 60, 5));
+        platforms.add(new StandardPlatform(world, camera, 60, 0));
+        platforms.add(new BoxPlatform(world, camera, 80, 2));
+        platforms.add(new BoxPlatform(world, camera, 90, 2));
+        platforms.add(new LongPlatform(world, camera, 95, -6));
+        platforms.add(new SmallPlatform(world, camera, 130, 0));
 
         //create the enemies
         enemies.add(new PatrolEnemy(world, 36, -5, 15, 35, 0, 0, "mummy.png"));
         enemies.add(new PatrolEnemy(world, 45, 10, 0, 0, -3, 10, "mummy.png"));
+        enemies.add(new PatrolEnemy(world, 92, -2, 90, 100, 0, 0, "mummy.png"));
+        enemies.add(new PatrolEnemy(world, 120, 6, 0, 0, -3, 10, "mummy.png"));
     }
 }
 

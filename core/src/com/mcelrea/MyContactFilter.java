@@ -58,6 +58,15 @@ public class MyContactFilter implements ContactFilter{
             ((Enemy)(fixtureA.getUserData())).alive = false;
         }
 
+        if(fixtureA.getUserData() instanceof Player &&
+                fixtureB.getUserData() instanceof Enemy) {
+            ((Player)fixtureA.getUserData()).resetPosition = true;
+        }
+        else if(fixtureB.getUserData() instanceof Player &&
+                fixtureA.getUserData() instanceof Enemy) {
+            ((Player)fixtureB.getUserData()).resetPosition = true;
+        }
+
         //must be the last line
         return true;
     }
